@@ -1,3 +1,7 @@
+/**
+ * @type import('hardhat/config').HardhatUserConfig
+*/
+
 require("@nomiclabs/hardhat-waffle");
 const INFURA_PROJECT_ID = "3fc6eb8b74f641c6b291d3b0ece1b34e";
 const fs = require("fs");
