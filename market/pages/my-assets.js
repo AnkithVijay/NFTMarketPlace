@@ -60,7 +60,7 @@ export default function MyAssets() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {
                         nfts.map((nft, i) => (
-                            <div>
+                            // <div>
                                 <div key={i} className="rounded">
                                     <img src={nft.image} className="rounded"/>
                                     <div className="p-4 bg-black">
@@ -69,7 +69,7 @@ export default function MyAssets() {
                                         </p>
                                     </div>
                                 </div>
-                            </div>
+                            // </div>
                         ))
                     }
                 </div>

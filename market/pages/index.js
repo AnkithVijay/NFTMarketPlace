@@ -17,13 +17,17 @@ if (process.env.NEXT_PUBLIC_WORKSPACE_URL) {
 }
 
 export default function Home() {
-  const [nfts, setNfts] = useState([])
+  const [nfts, setNfts] = useState([]);
+  
   const [loadingState, setLoadingState] = useState('not-loaded')
   useEffect(() => {
     loadNFTs()
   }, [])
+
+
   async function loadNFTs() {
-    const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint)
+
+    const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint);
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
     const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
     const data = await marketContract.fetchMarketItems()
@@ -46,23 +50,22 @@ export default function Home() {
     setNfts(items)
     setLoadingState('loaded')
   }
-  async function buyNft(nft) {
-    const web3Modal = new Web3Modal()
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
-    const signer = provider.getSigner()
-    const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
 
-    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
+  async function buyNft(nft) {
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer);
+    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether');
     const transaction = await contract.createMarketSale(nftaddress, nft.itemId, {
       value: price
     })
-    await transaction.wait()
-    loadNFTs()
+    await transaction.wait();
+    loadNFTs();
   }
+
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>)
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center col-span-8">
       <div className="px-4" style={{ maxWidth: '1600px' }}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {
@@ -86,4 +89,6 @@ export default function Home() {
       </div>
     </div>
   )
+
+
 }
